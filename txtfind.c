@@ -1,57 +1,59 @@
 #include <stdio.h>
+
 #define LINE 256
 #define WORD 30
 #define MAXROWS 250
 
-
+//function which gets a char pointer and put inside that arr the next word 
 int getword(char w[])
 {
     char c;
-    for(int i=0;i<WORD;i++)
+    for(int i=0;i<WORD;i++)  //maximun iteration is the max word length
     {
-        scanf("%c", &c);
-        if(c==EOF)
+        if(scanf("%c", &c) != 1)
         {
-            *(w+i)='\0';
-            printf("eof");
-             return -1;
-        }
-        if(c==' '|| c=='\n' || c=='\t' || c=='\0')
-        {
-            *(w+i)='\0';
-            return i;
-        }
-        else
-        {
-         *(w+i)=c;
-        }
-    }
-}
-int getLine(char line[])
-{
-    char c;
-    for(int i=0;i<LINE;i++)
-    {
-        scanf("%c", &c);
-        if(c==EOF)
-        {
-            *(line+i)='\0';
+            // *(w+i)='\0';
             return -1;
         }
-        if(c!='\n')
+       
+       if(c==' '|| c=='\n' || c=='\t' || c=='\0' || c == EOF) //if the char isn't a letter from the word
         {
-            *(line+i)=c;
+            *(w+i)='\0';  //end the word by putting \0
+            return i;  //return the word's length 
         }
-        else
+        else  //if this is the next word letter
         {
-            *(line+i)='\0';
-            return i;
-            break;
+         *(w+i)=c;  //put it in the next place in the arr
         }
     }
 }
 
-int substring( char * str1, char * str2)//checking if str2 is inside str1
+//function that read a line and insert it to the line char array
+int getLine(char line[])
+{
+    char c;
+    for(int i=0;i<LINE;i++)  //maximun iteration is the max line length
+    {
+        scanf("%c", &c);  //get the next chat input
+        if(c==EOF)  //if this is the end of file
+        {
+            *(line+i)='\0';  //end the line by putting \0
+            return -1;  //return -1
+        }
+        if(c!='\n')  //if we got the next letter in the line  
+        {
+            *(line+i)=c;  //add it to the next empty place in the array
+        }
+        else  //if c is \n
+        {
+            *(line+i)='\0';  //finish the line array by putting \0
+            return i;  //retrun the line length 
+        }
+    }
+}
+
+//function that check if str2 is a substring of str1
+int substring( char * str1, char * str2)
 {
     char c;
     for(int i=0;i<LINE;i++)//while(c!='\0')
@@ -89,6 +91,7 @@ int substring( char * str1, char * str2)//checking if str2 is inside str1
 return 0;
 }
 
+//function that gets a char pointer and return the length of the word
 int str_len(char* s)
 {
     int count=0;
@@ -101,35 +104,39 @@ int str_len(char* s)
     return count;
 }
 
+//function that gets 2 strings (2 chars pointers) and n (number of posibble changes between the two)
 int similar (char *s, char *t, int n)
 {
    int s_len=str_len(s);
    int t_len=str_len(t);
-    if(t_len>s_len)
+    if(t_len>s_len)  //quick checking 
     {
         return 0;
     }
-    int i,j=0;
-    while(i<s_len)
+    int i = 0;
+    int j = 0;
+    while(i<s_len)  //go through the s pointer word
     {
-        if(*(s+i)==*(t+j))
+        // if(*(s+i)==*(t+j))  //if they are similar 
+        if(s[i] == t[j])  //if they are similar 
         {
             i++;
             j++;
         }
-        else
+        else  //if the latters arn not similar
         {
             i++;
-            n--;
-            if(n<0)
+            n--;  //decrease the number of changes that we have left
+            if(n<0)  //if we over step our changes limit
             {
-                return 0;
+                return 0;  
             }
         }
     }
-        return 1;
+    return 1;
 }
 
+//function that gets a str (char pointer) and print the all str
 void print_str(char* str)
 {
     char c=*str;
@@ -143,18 +150,17 @@ void print_str(char* str)
     printf("\n");
 }
 
+//function for a choise 
 void a(char* str)
 {
-    for(int i=0;i<MAXROWS;i++)
+    for(int i=0;i<MAXROWS;i++)  //maximun iteration is the number of max number of posibble lines
     {
         char line[LINE];
-        int boolean1=getLine(line);
-        if(boolean1==-1)
+        if(getLine(line)==-1)
         {
             break;
         }
-        int boolean2=substring(line,str);
-        if(boolean2==1)
+        if(substring(line,str)==1)
         {
             print_str(line);
         }
@@ -165,13 +171,25 @@ void a(char* str)
 void b(char* str)
 {
     char word[WORD];
-    int boolean1=getword(word);
-    int i=0;
-    while(boolean1!=-1&& i<35)
+
+    char dummy;
+    scanf("%c", &dummy);
+    scanf("%c", &dummy);
+    scanf("%c", &dummy);
+   
+//    printf("%s", str);   for debugging needs
+
+    while(getword(word) != -1)
     {
-       printf("%s\n",word);//print_str(word);
-       boolean1= getword(word);
-       i++;
+        // printf("%s\n",word);
+        if(similar(word, str, 1) == 1)
+        {
+            printf("%s\n",word);
+        }
+    }
+    if(similar(word, str, 1) == 1)
+    {
+        printf("%s\n",word);
     }
 }
 
@@ -194,3 +212,7 @@ int main()
         b(str);
     }
 }
+
+
+
+
