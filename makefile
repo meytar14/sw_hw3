@@ -3,7 +3,7 @@ CC = gcc -Wall
 all: isort txtfind
 
 isort: isort.o
-	{CC} $^ -o $@
+	${CC} $^ -o $@
 
 isort.o: isort.c
 	${CC} -c $^

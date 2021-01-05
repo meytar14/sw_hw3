@@ -8,7 +8,8 @@
 int getword(char w[])
 {
     char c;
-    for(int i=0;i<WORD;i++)  //maximun iteration is the max word length
+    int i;
+    for(i=0;i<WORD;i++)  //maximun iteration is the max word length
     {
         if(scanf("%c", &c) != 1)
         {
@@ -26,13 +27,15 @@ int getword(char w[])
          *(w+i)=c;  //put it in the next place in the arr
         }
     }
+    return i;
 }
 
 //function that read a line and insert it to the line char array
 int getLine(char line[])
 {
     char c;
-    for(int i=0;i<LINE;i++)  //maximun iteration is the max line length
+    int i;
+    for(i=0;i<LINE;i++)  //maximun iteration is the max line length
     {
         scanf("%c", &c);  //get the next chat input
         if(c==EOF)  //if this is the end of file
@@ -50,6 +53,7 @@ int getLine(char line[])
             return i;  //retrun the line length 
         }
     }
+    return i;
 }
 
 //function that check if str2 is a substring of str1
@@ -107,8 +111,8 @@ int str_len(char* s)
 //function that gets 2 strings (2 chars pointers) and n (number of posibble changes between the two)
 int similar (char *s, char *t, int n)
 {
-   int s_len=str_len(s);
-   int t_len=str_len(t);
+   int s_len=str_len(s) - 1;
+   int t_len=str_len(t) - 1;
     if(t_len>s_len)  //quick checking 
     {
         return 0;

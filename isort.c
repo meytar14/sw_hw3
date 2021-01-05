@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#define LEN 5
+#define LEN 50
 
 void shift_element(int* arr, int i)
 {
