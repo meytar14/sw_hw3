@@ -15,4 +15,4 @@ txtfind.o: txtfind.c
 	${CC} -c $^
 
 clean: 
-	rm *.o isort txtfind *.a 
+	rm *.o isort txtfind
